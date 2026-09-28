@@ -1,0 +1,14 @@
+node_modules/
+.env
+.env.*
+playwright-report/
+test-results/
+coverage/
+.DS_Store
+npm-debug.log*
+
+# VS Code
+.vscode/
+
+# OS
+Thumbs.db

@@ -1,0 +1,22 @@
+{
+  "name": "nextjs-demo-automation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test:bdd": "cucumber-js --require-module tsx/cjs --require 'step-definitions/**/*.ts' --require 'support/**/*.ts'",
+    "test:bdd:smoke": "cucumber-js --tags @smoke"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@cucumber/cucumber": "^13.2.1",
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^26.6.3",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}
