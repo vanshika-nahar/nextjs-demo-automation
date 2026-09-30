@@ -2,12 +2,14 @@ import { setWorldConstructor, World } from '@cucumber/cucumber';
 import { Browser, BrowserContext, Page, chromium } from '@playwright/test';
 
 import { PrincipalPage } from '../pages/PrincipalPage';
+import { UserPage } from '../pages/UserPage';
 
 export class CustomWorld extends World {
   browser!: Browser;
   context!: BrowserContext;
   page!: Page;
   principalPage!: PrincipalPage;
+  userPage!: UserPage;
 
   async startBrowser(): Promise<void> {
     this.browser = await chromium.launch({
