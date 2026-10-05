@@ -58,9 +58,9 @@ Then(
   },
 );
 
-// Then(
-//   'the user submit button should be disabled',
-//   async function (this: CustomWorld) {
-//     await expect(this.userPage.submitButton).toBeDisabled();
-//   },
-// );
+Then(
+  'the user submit button should be disabled',
+  async function (this: CustomWorld) {
+    await expect(this.userPage.submitButton).toBeDisabled();
+  },
+);
