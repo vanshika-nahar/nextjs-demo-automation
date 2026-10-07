@@ -13,15 +13,15 @@ export class FormPage {
 
   constructor(private readonly page: Page) {
     this.title = this.page.getByRole('heading', { name: /onboard company/i });
-    this.companyNameInput = this.page.locator(
-      'xpath=//input[@data-testid="company-name-input-does-not-exist"]',
-    );
+    this.companyNameInput = this.page.getByTestId('company-name-input');
     this.diminutiveNameInput = this.page.getByTestId('diminutive-name-input');
     this.cinInput = this.page.getByTestId('cin-input');
     this.panInput = this.page.getByTestId('pan-input');
     this.addressInput = this.page.getByTestId('address-input');
     this.dateInput = this.page.getByTestId('date-input');
-    this.submitButton = this.page.getByTestId('submit-button');
+    this.submitButton = this.page.locator(
+      'xpath=//button[@data-testid="submit-button-does-not-exist"]',
+    );
     this.successMessage = this.page.getByText(/success|submitted|created|saved/i);
   }
 
