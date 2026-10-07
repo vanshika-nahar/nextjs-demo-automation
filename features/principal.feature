@@ -1,5 +1,6 @@
 Feature: Principal Management
 
+  @smoke
   Scenario: Successfully create a principal with valid details
     Given the user is on the Add Principal page
     When the user enters "Suzlon Energy Limited" in the principal name field
@@ -13,10 +14,12 @@ Feature: Principal Management
     And the user clicks the principal submit button
     Then the principal should be created successfully
 
+  @smoke
   Scenario: Submit button remains disabled when mandatory fields are empty
     Given the user is on the Add Principal page
     Then the principal submit button should be disabled
 
+  @regression
   Scenario: User cannot submit the form with an invalid email
     Given the user is on the Add Principal page
     When the user enters "Suzlon Energy Limited" in the principal name field

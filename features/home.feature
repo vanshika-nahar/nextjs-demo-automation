@@ -5,7 +5,7 @@ Feature: Home Page
     Given the user opens the application
     Then the home page title should be visible
 
-  @smoke
+  @regression
   Scenario: User can navigate from home page to the onboarding form
     Given the user opens the application
     When the user clicks the onboard company link

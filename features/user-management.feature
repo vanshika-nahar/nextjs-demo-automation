@@ -1,5 +1,6 @@
 Feature: User Management
 
+  @smoke
   Scenario: Successfully create a user with valid details
     Given the user is on the Add User page
     When the user enters "Rahul Sharma" in the user name field
@@ -8,7 +9,8 @@ Feature: User Management
     And the user selects "contractor" as the user role
     And the user clicks the user submit button
     Then the user should be created successfully
-
+  
+  @regression
   Scenario: Submit button remains disabled when mandatory fields are empty
     Given the user is on the Add User page
     Then the user submit button should be disabled
