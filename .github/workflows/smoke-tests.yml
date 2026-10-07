@@ -1,18 +1,19 @@
 name: Smoke Tests
 
 on:
-  workflow_call:
+  repository_dispatch:
+    types:
+      - run-smoke-tests
 
 jobs:
   smoke:
-    name: Playwright Cucumber Smoke Tests
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout automation repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -21,8 +22,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Playwright Chromium
+      - name: Install Playwright
         run: npx playwright install --with-deps chromium
 
       - name: Run smoke tests
-        run: npm run test:bdd:smoke
+        run: npm run test:bdd

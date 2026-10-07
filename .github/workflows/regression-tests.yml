@@ -1,11 +1,13 @@
 name: Regression Tests
 
 on:
-  workflow_call:
+  repository_dispatch:
+    types:
+      - run-regression-tests
 
 jobs:
   regression:
-    name: Playwright Cucumber Regression Tests
+    name: Playwright Cucumber Regression
     runs-on: ubuntu-latest
 
     steps:
@@ -25,4 +27,4 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run regression tests
-        run: npm run test:bdd:regression
+        run: npm run test:bdd
