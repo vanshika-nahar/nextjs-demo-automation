@@ -27,4 +27,4 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run regression tests
-        run: npm run test:bdd
+        run: npm run test:bdd:regression
