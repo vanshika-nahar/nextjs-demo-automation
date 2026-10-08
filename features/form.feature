@@ -12,7 +12,7 @@ Feature: Company Onboarding Form
     And the user submits the onboarding form
     Then the onboarding form should remain on the form page
 
-  @validation @regression
+  @validation @regression @abcde
   Scenario: User cannot submit the onboarding form without required fields
     Given the user opens the onboarding form
     When the user submits the onboarding form

@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test:bdd": "cucumber-js --require-module tsx/cjs --require 'step-definitions/**/*.ts' --require 'support/**/*.ts'",
-    "test:bdd:smoke": "cucumber-js --tags @smoke"
+    "test:bdd:smoke": "cucumber-js --tags @smoke",
+    "test:bdd:regression": "cucumber-js --tags @regression",
+    "test:playwright": "playwright test",
+    "test:playwright:smoke": "playwright test --grep @smoke",
+    "test:playwright:regression": "playwright test --grep @regression"
   },
   "keywords": [],
   "author": "",
