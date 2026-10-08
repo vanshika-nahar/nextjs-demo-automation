@@ -4,13 +4,43 @@ on:
   repository_dispatch:
     types:
       - run-regression-tests
+  workflow_dispatch:
+    inputs:
+      app_ref:
+        description: "Demo app branch or commit SHA to test"
+        default: stage
+
+run-name: Regression Tests · ${{ github.event.client_payload.head_ref || inputs.app_ref }} -> ${{ github.event.client_payload.base_ref || 'main' }}
+
+concurrency:
+  group: regression-${{ github.event.client_payload.pr_number || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
   regression:
     name: Playwright Cucumber Regression
     runs-on: ubuntu-latest
 
+    env:
+      APP_REPO:   ${{ github.event.client_payload.app_repo || 'vanshika-nahar/nextjs-demo' }}  # <-- check demo app repo name
+      APP_REF:    ${{ github.event.client_payload.sha || inputs.app_ref }}
+      APP_BRANCH: ${{ github.event.client_payload.head_ref || inputs.app_ref }}
+      PR_NUMBER:  ${{ github.event.client_payload.pr_number }}
+      STATUS_TOKEN: ${{ secrets.APP_REPO_TOKEN }}
+      STATUS_CONTEXT: Regression Tests
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
     steps:
+      - name: Mark PR check as pending
+        if: env.STATUS_TOKEN != '' && github.event_name == 'repository_dispatch'
+        env:
+          GH_TOKEN: ${{ secrets.APP_REPO_TOKEN }}
+        run: |
+          gh api "repos/$APP_REPO/statuses/$APP_REF" \
+            -f state=pending -f context="$STATUS_CONTEXT" \
+            -f description="Running for $APP_BRANCH (PR #$PR_NUMBER)" \
+            -f target_url="$RUN_URL"
+
       - name: Checkout automation repository
         uses: actions/checkout@v4
 
@@ -26,5 +56,25 @@ jobs:
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
+      - name: Start demo app
+        run: |
+          echo "Testing $APP_REPO @ $APP_BRANCH ($APP_REF)"
+          ./scripts/start-demo-app.sh
+
       - name: Run regression tests
         run: npm run test:bdd:regression
+
+      - name: Report result on PR
+        if: always() && env.STATUS_TOKEN != '' && github.event_name == 'repository_dispatch'
+        env:
+          GH_TOKEN: ${{ secrets.APP_REPO_TOKEN }}
+        run: |
+          case "${{ job.status }}" in
+            success) STATE=success ;;
+            failure) STATE=failure ;;
+            *)       STATE=error   ;;
+          esac
+          gh api "repos/$APP_REPO/statuses/$APP_REF" \
+            -f state="$STATE" -f context="$STATUS_CONTEXT" \
+            -f description="Regression tests ${{ job.status }} for $APP_BRANCH" \
+            -f target_url="$RUN_URL"

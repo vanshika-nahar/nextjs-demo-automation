@@ -19,9 +19,7 @@ export class FormPage {
     this.panInput = this.page.getByTestId('pan-input');
     this.addressInput = this.page.getByTestId('address-input');
     this.dateInput = this.page.getByTestId('date-input');
-    this.submitButton = this.page.locator(
-      'xpath=//button[@data-testid="submit-button-does-not-exist"]',
-    );
+    this.submitButton = this.page.getByTestId('submit-button');
     this.successMessage = this.page.getByText(/success|submitted|created|saved/i);
   }
 
